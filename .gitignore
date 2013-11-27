@@ -16,3 +16,9 @@
 *.exe
 *.out
 *.app
+
+# Project specific build artifacts
+.libs
+*.la
+*.lo
+*.slo
