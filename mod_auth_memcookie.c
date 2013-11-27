@@ -340,7 +340,7 @@ static int Auth_memCookie_check_cookie(request_rec *r)
     else if (conf->nAuth_memCookie_MatchIP_Mode==1&&apr_table_get(r->headers_in,"X-Forwarded-For")!=NULL)
       szRemoteIP=apr_pstrdup(r->pool,apr_table_get(r->headers_in,"X-Forwarded-For"));
     else
-      szRemoteIP=apr_pstrdup(r->pool,r->connection->remote_ip);
+      szRemoteIP=apr_pstrdup(r->pool,r->connection->client_ip);
 
 
     unless(conf->nAuth_memCookie_Authoritative)
