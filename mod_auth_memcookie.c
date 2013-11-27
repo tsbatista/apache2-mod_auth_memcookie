@@ -345,12 +345,13 @@ static int Auth_memCookie_check_cookie(request_rec *r)
 
     unless(conf->nAuth_memCookie_Authoritative)
 	return DECLINED;
-
+#if 0
     ap_log_rerror(APLOG_MARK,APLOG_DEBUG|APLOG_NOERRNO, 0,r,ERRTAG  "AuthType are '%s'", ap_auth_type(r));
     unless(strncmp("Cookie",ap_auth_type(r),6)==0) {
 	ap_log_rerror(APLOG_MARK, APLOG_ERR|APLOG_NOERRNO, 0, r, ERRTAG "Auth type not specified has 'Cookie'");
         return HTTP_UNAUTHORIZED;
     }
+#endif
 
     unless(conf->szAuth_memCookie_CookieName) {
 	ap_log_rerror(APLOG_MARK, APLOG_ERR|APLOG_NOERRNO, 0, r, ERRTAG "No Auth_memCookie_CookieName specified");
@@ -456,7 +457,9 @@ static int Auth_memCookie_check_auth(request_rec *r)
         ap_log_rerror(APLOG_MARK, APLOG_ERR|APLOG_NOERRNO, 0, r,ERRTAG "apr_pool_userdata_get Apr Error: %d", tRetStatus);
         return HTTP_FORBIDDEN;
     }
+    return DECLINED;
 
+#if 0
     /* get require line */
     reqs_arr = ap_requires(r);
     reqs = reqs_arr ? (require_line *) reqs_arr->elts : NULL;
@@ -514,6 +517,7 @@ static int Auth_memCookie_check_auth(request_rec *r)
     ap_log_rerror(APLOG_MARK, APLOG_ERR|APLOG_NOERRNO, 0, r ,ERRTAG  "the user logged '%s' not authorized",szMyUser);
     /* forbid by default */
     return HTTP_FORBIDDEN;
+#endif
 }
 
 
