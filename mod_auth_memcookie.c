@@ -458,66 +458,6 @@ static int Auth_memCookie_check_auth(request_rec *r)
         return HTTP_FORBIDDEN;
     }
     return DECLINED;
-
-#if 0
-    /* get require line */
-    reqs_arr = ap_requires(r);
-    reqs = reqs_arr ? (require_line *) reqs_arr->elts : NULL;
-
-    /* decline if no require line found */
-    if (!reqs_arr) return DECLINED;
-
-    /* walk throug the array to check eatch require command */
-    for (x = 0; x < reqs_arr->nelts; x++) {
-
-        if (!(reqs[x].method_mask & (AP_METHOD_BIT << m)))
-            continue;
-
-        /* get require line */
-        szRequireLine = reqs[x].requirement;
-	ap_log_rerror(APLOG_MARK,APLOG_DEBUG|APLOG_NOERRNO, 0,r,ERRTAG  "Require Line is '%s'", szRequireLine);
-
-        /* get the first word in require line */
-        szRequire_cmd = ap_getword_white(r->pool, &szRequireLine);
-	ap_log_rerror(APLOG_MARK,APLOG_DEBUG|APLOG_NOERRNO, 0,r,ERRTAG "Require Cmd is '%s'", szRequire_cmd);
-
-        /* if require cmd are valid-user, they are already authenticated than allow and return OK */
-        if (!strcmp("valid-user",szRequire_cmd)) {
-	 ap_log_rerror(APLOG_MARK,APLOG_DEBUG|APLOG_NOERRNO, 0,r,ERRTAG "Require Cmd valid-user");
-            return OK;
-        } 
-	 /* check the required user */ 
-	else if (!strcmp("user",szRequire_cmd)) {
-	    szUser = ap_getword_conf(r->pool, &szRequireLine);
-	    if (strcmp(szMyUser, szUser)) {
-                ap_log_rerror(APLOG_MARK, APLOG_ERR, 0, r ,ERRTAG  "the user logged '%s' are not the user required '%s'",szMyUser,szUser);
-                return HTTP_FORBIDDEN;
-            }
-	    ap_log_rerror(APLOG_MARK, APLOG_INFO|APLOG_NOERRNO, 0, r ,ERRTAG  "the user logged '%s' is authorized",szMyUser);
-	    return OK;
-        }
-        else if (!strcmp("group",szRequire_cmd)) {
-            szGroups=(char*)apr_table_get(pAuthSession,"Groups");
-	    szGroup = ap_getword_white(r->pool, &szRequireLine);
-	    ap_log_rerror(APLOG_MARK, APLOG_INFO|APLOG_NOERRNO, 0, r ,ERRTAG  "check group '%s' in '%s'",szGroup,szGroups);
-	    if (szGroups==NULL) { 
-                ap_log_rerror(APLOG_MARK, APLOG_ERR, 0, r ,ERRTAG  "user %s not in group", szMyUser);
-                return HTTP_FORBIDDEN;
-	    }
-	
-	    if (get_Auth_memCookie_grp(r, szGroup, szGroups)!=OK) {
-                ap_log_rerror(APLOG_MARK, APLOG_ERR, 0, r ,ERRTAG  "user %s not in right group", szMyUser);
-                return HTTP_FORBIDDEN;
-            }
-	    ap_log_rerror(APLOG_MARK, APLOG_INFO|APLOG_NOERRNO, 0, r ,ERRTAG  "the user logged '%s' as the good group %s and is authorized",szMyUser,szGroup);
-	    return OK;
-        }
-    }
-
-    ap_log_rerror(APLOG_MARK, APLOG_ERR|APLOG_NOERRNO, 0, r ,ERRTAG  "the user logged '%s' not authorized",szMyUser);
-    /* forbid by default */
-    return HTTP_FORBIDDEN;
-#endif
 }
 
 
