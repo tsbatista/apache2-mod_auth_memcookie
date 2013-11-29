@@ -346,13 +346,12 @@ static int Auth_memCookie_check_cookie(request_rec *r)
 
     unless(conf->nAuth_memCookie_Authoritative)
 	return DECLINED;
-#if 0
+
     ap_log_rerror(APLOG_MARK,APLOG_DEBUG|APLOG_NOERRNO, 0,r,ERRTAG  "AuthType are '%s'", ap_auth_type(r));
     unless(strncmp("Cookie",ap_auth_type(r),6)==0) {
 	ap_log_rerror(APLOG_MARK, APLOG_ERR|APLOG_NOERRNO, 0, r, ERRTAG "Auth type not specified has 'Cookie'");
-        return HTTP_UNAUTHORIZED;
+        return DECLINED;
     }
-#endif
 
     unless(conf->szAuth_memCookie_CookieName) {
 	ap_log_rerror(APLOG_MARK, APLOG_ERR|APLOG_NOERRNO, 0, r, ERRTAG "No Auth_memCookie_CookieName specified");
