@@ -188,6 +188,7 @@ static apr_table_t *Auth_memCookie_get_session(request_rec *r, strAuth_memCookie
     /* get value for the key 'szCookieValue' in memcached server */
     unless(szValue=(char*)mc_aget2(mc_session,szCookieValue,nGetKeyLen,&nGetLen)) {
        ap_log_rerror(APLOG_MARK,APLOG_DEBUG|APLOG_NOERRNO, 0,r,ERRTAG  "mc_aget2 failed to found key '%s'",szCookieValue);
+       mc_free(mc_session);
        return NULL;
     }
 
