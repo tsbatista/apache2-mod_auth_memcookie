@@ -258,30 +258,6 @@ static apr_table_t *Auth_memCookie_get_session(request_rec *r, strAuth_memCookie
     return pMySession;
 }
 
-/* check if szGroup are in szGroups. */
-static int get_Auth_memCookie_grp(request_rec *r, char *szGroup, char *szGroups)
-{
-    char *szGrp_End;
-    char *szGrp_Pos;
-    char *szMyGroups;
-
-    /* make a copy */
-    szMyGroups=apr_pstrdup(r->pool,szGroups);
-    /* search group in groups */
-    unless(szGrp_Pos=strstr(szMyGroups,szGroup)) {
-      return DECLINED;
-    }
-    /* search the next ':' and set '\0' in place of ':' */
-    if ((szGrp_End=strchr(szGrp_Pos,':'))) szGrp_End[0]='\0';
-
-    /* compar szGroup with szGrp_Pos if ok return ok */
-    if(strcmp(szGroup,szGrp_Pos))
-       return DECLINED;
-    ap_log_rerror(APLOG_MARK, APLOG_DEBUG|APLOG_NOERRNO, 0, r, ERRTAG "group found=%s",szGrp_Pos);
-    return OK;
-}
-
-
 /* user apr_table_do to set session information in child environment variable */
 static int Auth_memCookie_DoSetEnv(void*rec,const char *szKey, const char *szValue)
 {
@@ -430,18 +406,6 @@ static int Auth_memCookie_check_cookie(request_rec *r)
 static int Auth_memCookie_check_auth(request_rec *r)
 {
     strAuth_memCookie_config_rec *conf=NULL;
-    char *szMyUser=r->user;
-    char *szUser;
-    int m = r->method_number;
-
-    const apr_array_header_t *reqs_arr=NULL;
-    require_line *reqs=NULL;
-
-    register int x;
-    const char *szRequireLine;
-    char *szRequire_cmd;
-    char *szGroup;
-    char *szGroups;
 
     apr_table_t *pAuthSession=NULL;
     apr_status_t tRetStatus;
