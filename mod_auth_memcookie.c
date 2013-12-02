@@ -47,7 +47,7 @@
 #if AP_SERVER_MINORVERSION_NUMBER >= 4
 #define REMOTE_IP(conn_rec) (conn_rec->client_ip)
 #else
-#define REMOTE_IP(conn_rec) (conn_rec->request_ip)
+#define REMOTE_IP(conn_rec) (conn_rec->remote_ip)
 #endif
 
 /* apache module name */
