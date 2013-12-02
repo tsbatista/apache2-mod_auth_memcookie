@@ -44,6 +44,12 @@
 #define VERSION "1.0.3"
 #define unless(c) if(!(c))
 
+#if AP_SERVER_MINORVERSION_NUMBER >= 4
+#define REMOTE_IP(conn_rec) (conn_rec->client_ip)
+#else
+#define REMOTE_IP(conn_rec) (conn_rec->request_ip)
+#endif
+
 /* apache module name */
 module AP_MODULE_DECLARE_DATA mod_auth_memcookie_module;
 
@@ -341,7 +347,7 @@ static int Auth_memCookie_check_cookie(request_rec *r)
     else if (conf->nAuth_memCookie_MatchIP_Mode==1&&apr_table_get(r->headers_in,"X-Forwarded-For")!=NULL)
       szRemoteIP=apr_pstrdup(r->pool,apr_table_get(r->headers_in,"X-Forwarded-For"));
     else
-      szRemoteIP=apr_pstrdup(r->pool,r->connection->client_ip);
+      szRemoteIP=apr_pstrdup(r->pool,REMOTE_IP(r->connection));
 
 
     unless(conf->nAuth_memCookie_Authoritative)
