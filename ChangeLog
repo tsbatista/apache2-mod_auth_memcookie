@@ -9,3 +9,8 @@
 	* bug fix of Auth_memCookie_SessionTableSize to 8 any time...
 	* complete rewrite of match ip option to make possible to use it behind reverse proxy and to check x-forwarded or via http header in place of apache remote_ip.
 
+2013-12-2 tsbatista
+	* mod_authmemcookie/1.03
+	* return DECLINED if request is not to be handled byu this module
+	* port to apache 2.4 API
+	* plug memcache connection leak
