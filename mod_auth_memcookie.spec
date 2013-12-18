@@ -1,8 +1,5 @@
-%global commit b0f78510c5c126f07a4a096bef84993b353b0a64
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-
 Name:           mod_auth_memcookie
-Version:        1.0.4
+Version:        1.0.5-dev
 Release:        2%{?dist}
 Summary:        Apache module for SSO authentication using information stored on a memcached server
 Group:          System Environment/Daemons
