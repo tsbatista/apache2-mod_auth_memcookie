@@ -14,3 +14,7 @@
 	* return DECLINED if request is not to be handled byu this module
 	* port to apache 2.4 API
 	* plug memcache connection leak
+
+2013-12-18
+	* mod_authmemcookie/1.04
+	* add an selinux module - we can now run under enforcing mode

@@ -41,7 +41,7 @@
 
 
 #define ERRTAG "Auth_memCookie: "
-#define VERSION "1.0.3"
+#define VERSION "1.0.4"
 #define unless(c) if(!(c))
 
 #if AP_SERVER_MINORVERSION_NUMBER >= 4

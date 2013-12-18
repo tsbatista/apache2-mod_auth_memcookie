@@ -1,5 +1,5 @@
 Name:           mod_auth_memcookie
-Version:        1.0.3
+Version:        1.0.4
 Release:        2%{?dist}
 Summary:        Apache module for SSO authentication using information stored on a memcached server
 Group:          System Environment/Daemons
