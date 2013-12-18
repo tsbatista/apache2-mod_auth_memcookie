@@ -1,3 +1,6 @@
+%global commit b0f78510c5c126f07a4a096bef84993b353b0a64
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+
 Name:           mod_auth_memcookie
 Version:        1.0.4
 Release:        2%{?dist}
@@ -5,7 +8,10 @@ Summary:        Apache module for SSO authentication using information stored on
 Group:          System Environment/Daemons
 License:        Apache 2.0
 URL:            https://github.com/tsbatista/apache2-mod_auth_memcookie
-Source:         https://github.com/tsbatista/apache2-mod_auth_memcookie/tsbatista/apache2-%{name}/archive/v%{version}.zip
+Source:         https://github.com/tsbatista/apache2-%{name}/archive/%{version}.tar.gz#/apache2-%{name}-%{version}.tar.gz
+# for some reason my wget downloads to a file called ½{version}... no extension at all
+# you need to rename the file after downloading
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  httpd-devel libmemcache-devel
@@ -42,7 +48,8 @@ Authentication information necessary to the module a stored in memcached
 identified by the cookie value "Authentication session id" by this login page.
 
 %prep
-%setup -q -n apache2-%{name}-%{version}
+%setup -n  apache2-%{name}-%{version}
+#%setup -q -n apache2-%{name}-%{version} 
 mkdir SELinux
 cp %{name}.te SELinux/
 
